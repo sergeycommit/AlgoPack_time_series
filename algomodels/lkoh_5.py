@@ -35,7 +35,7 @@ TARGET_COLUMN = "close"
 DATE_COLUMN = "date"
 
 #Настройки
-ticker_name = 'SBER'
+ticker_name = 'LKOH'
 period = '1D'
 date_from = '2007-07-20'
 date_to = '2023-12-05'

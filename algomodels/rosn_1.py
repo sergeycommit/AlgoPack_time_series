@@ -30,12 +30,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-HORIZON = 5
+HORIZON = 1
 TARGET_COLUMN = "close"
 DATE_COLUMN = "date"
 
 #Настройки
-ticker_name = 'SBER'
+ticker_name = 'ROSN'
 period = '1D'
 date_from = '2007-07-20'
 date_to = '2023-12-05'
