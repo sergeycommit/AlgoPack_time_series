@@ -13,5 +13,3 @@ Numpy, pandas, matplotlib, category_encoders, pickle, sklearn, lightautoml
 ### Описание проекта
 Algopack_time_series.ipynb - шаблон модели прогноза временных рядов на базе LAMA
 algomodels - папка с настроенными моделями для каждого финансового инструмента
-
-Запуск python calc_profit.py
