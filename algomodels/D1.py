@@ -31,15 +31,14 @@ from moexalgo import Market, Ticker
 import warnings
 warnings.filterwarnings("ignore")
 
-def train():
+def train(ticker_name):
 
-    HORIZON = 5
+    HORIZON = 1
     TARGET_COLUMN = "close"
     DATE_COLUMN = "date"
     ID_COLUMN = 'id'
 
     # Настройки
-    ticker_name = 'POLY'
     period = '1D'
     date_from = '2007-07-20'
     date_to = datetime.date.today()
