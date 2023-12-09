@@ -4,7 +4,7 @@
 Наш командный проект - https://github.com/DaniilVdovin/GO.ALGO.Neuro
 
 ### Используемые библиотеки
-Numpy, pandas, matplotlib, category_encoders, pickle, sklearn, lightautoml
+Lightautoml, pandas_ta, pyod, numpy, pandas, matplotlib, pickle, sklearn
 
 ### Результат
 Сделал для нескольких торговых инструментов модели на базе lightautoml, которые предсказывают временные ряды. Результаты отправляются по API на backend, где сортируются в ТОП-5.
