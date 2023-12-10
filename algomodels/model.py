@@ -27,25 +27,31 @@ from lightautoml.ml_algo.random_forest import RandomForestSklearn
 
 from moexalgo import Market, Ticker
 
+from company_conf import company_configs
+
 # Disable warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-def train():
+def train(ticker_name):
+    print(f'Обучение модели для акции {ticker_name}')
 
-    HORIZON = 5
+    HORIZON = company_configs[ticker_name]['horizon']
     TARGET_COLUMN = "close"
     DATE_COLUMN = "date"
-    ID_COLUMN = 'id'
 
     # Настройки
-    ticker_name = 'POLY'
     period = '1D'
     date_from = '2007-07-20'
     date_to = datetime.date.today()
 
     # Акции
-    ticker = Ticker(ticker_name)
+    name = ""
+    for i in ticker_name:
+        if not i.isnumeric():
+            name += i
+    print('TICKER_NAME', name)
+    ticker = Ticker(name)
 
     # Свечи по акциям за период. Период в минутах 1, 10, 60 или '1m', '10m', '1h', 'D', 'W', 'M', 'Q'; по умолчанию 60
     df = ticker.candles(date=date_from, till_date=date_to, period=period)
@@ -250,31 +256,31 @@ def train():
             "case": "next_values",
             "params": {
                 "n_target": HORIZON,
-                "history": 5,
-                "step": 1,
-                "from_last": True,
-                "test_last": True
+                "history": company_configs[ticker_name]['history'],
+                "step": company_configs[ticker_name]['step'],
+                "from_last": company_configs[ticker_name]['from_last'],
+                "test_last": company_configs[ticker_name]['test_last']
             }
         }
     }
 
     transformers_params = {
-        "lag_features": 10,
-        "lag_time_features": 10,
-        "diff_features": [1, 2, 3, 4, 5, 6, 7, 14, 30, 100, 150, 300]
+        "lag_features": company_configs[ticker_name]['lag_features'],
+        "lag_time_features": company_configs[ticker_name]['lag_time_features'],
+        "diff_features": company_configs[ticker_name]['diff_features']
     }
 
     ### Параметры для модели тренда.
     trend_params = {
-        'trend': True,
-        'train_on_trend': False,
-        'trend_type': 'decompose',  # one of 'decompose', 'decompose_STL', 'linear' or 'rolling'
-        'trend_size': 3,
-        'decompose_period': 15,
-        'detect_step_quantile': 0.01,
-        'detect_step_window': 1,
-        'detect_step_threshold': 0.7,
-        'rolling_size': 1,
+        'trend': company_configs[ticker_name]['trend'],
+        'train_on_trend': company_configs[ticker_name]['train_on_trend'],
+        'trend_type': company_configs[ticker_name]['trend_type'],
+        'trend_size': company_configs[ticker_name]['trend_size'],
+        'decompose_period': company_configs[ticker_name]['decompose_period'],
+        'detect_step_quantile': company_configs[ticker_name]['detect_step_quantile'],
+        'detect_step_window': company_configs[ticker_name]['detect_step_window'],
+        'detect_step_threshold': company_configs[ticker_name]['detect_step_threshold'],
+        'rolling_size': company_configs[ticker_name]['rolling_size'],
         'verbose': 0
     }
 
@@ -305,7 +311,7 @@ def train():
     count = 0
     while count <= 5:
         try:
-            url = f'http://213.171.14.97:8080//api/v1/leaderboard/RemoveByDateAndTicker?ticker={ticker_name}&date={datetime.date.today()}'
+            url = f'http://213.171.14.97:8080//api/v1/leaderboard/RemoveByDateAndTicker?ticker={ticker_name}&date={date_to}'
             response = requests.delete(url)
             if response.status_code == 200:
                 print(f"Запрос успешно отправлен")
